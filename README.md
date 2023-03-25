@@ -27,6 +27,7 @@ This README provides detailed information on how to set up, develop, and deploy 
   - [Plugins](#plugins)
   - [Retrieval Plugin](#retrieval-plugin)
   - [Memory Feature](#memory-feature)
+  - [Explain Feature](#explain-feature)
   - [Security](#security)
   - [API Endpoints](#api-endpoints)
 - [Quickstart](#quickstart)
@@ -80,6 +81,10 @@ A FastAPI server exposes the plugin's endpoints for upserting, querying, and del
 ### Memory Feature
 
 A notable feature of the Retrieval Plugin is its capacity to provide ChatGPT with memory. By utilizing the plugin's upsert endpoint, ChatGPT can save snippets from the conversation to the vector database for later reference (only when prompted to do so by the user). This functionality contributes to a more context-aware chat experience by allowing ChatGPT to remember and retrieve information from previous conversations. Learn how to configure the Retrieval Plugin with memory [here](/examples/memory).
+
+### Explain Feature
+
+You can use the plugin to ask questions about relevant documents directly instead of simply retrieving documents by using the plugin's explain endpoint.
 
 ### Security
 

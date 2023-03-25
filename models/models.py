@@ -64,3 +64,8 @@ class QueryWithEmbedding(Query):
 class QueryResult(BaseModel):
     query: str
     results: List[DocumentChunkWithScore]
+
+
+class ExplainResult(BaseModel):
+    query: str
+    explanation: str

@@ -11,9 +11,11 @@ from models.api import (
     QueryResponse,
     UpsertRequest,
     UpsertResponse,
+    ExplainResponse,
 )
 from datastore.factory import get_datastore
 from services.file import get_document_from_file
+from services.explain import get_explanation_for_query_result
 
 
 app = FastAPI()
@@ -106,6 +108,28 @@ async def query(
             request.queries,
         )
         return QueryResponse(results=results)
+    except Exception as e:
+        print("Error:", e)
+        raise HTTPException(status_code=500, detail="Internal Service Error")
+
+@app.post(
+    "/explain",
+    response_model=ExplainResponse,
+    description="This endpoint takes the same input as /query endpoint but instead of returning relevant documents, it answers the user question based on the retrieved documents. If the expected answer is not returned, try increasing the value of top_k to retrieve more documents.",
+)
+async def explain(
+    request: QueryRequest = Body(...),
+    token: HTTPAuthorizationCredentials = Depends(validate_token),
+):
+    try:
+        query_results = await datastore.query(
+            request.queries,
+        )
+        explanation_results = [
+            get_explanation_for_query_result(query_result) for query_result in query_results
+        ]
+        
+        return ExplainResponse(results=explanation_results)
     except Exception as e:
         print("Error:", e)
         raise HTTPException(status_code=500, detail="Internal Service Error")
